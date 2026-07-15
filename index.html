@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>vini</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="css/css2.css" rel="stylesheet"/>
+<link href="css/intro.css" rel="stylesheet"/>
+<link href="css/styles.css" rel="stylesheet"/>
+</head>
+<body>
+<div aria-hidden="false" id="introScreen">
+<div aria-label="Intro terminal" class="terminal-container" role="dialog">
+<div aria-hidden="true" class="term-header">
+<div class="term-btn red"></div>
+<div class="term-btn yellow"></div>
+<div class="term-btn green"></div>
+</div>
+<div aria-live="polite" class="log" id="termLog" tabindex="0"></div>
+<div aria-hidden="true" id="continueText">Access granted. Click to continue...</div>
+</div>
+</div>
+<div class="desktop">
+<div class="top-bar">
+<div class="arch-logo-top">vini@217.48.31.185</div>
+<div class="top-info">
+<span>Terminal Session</span>
+<span>1 active connection</span>
+</div>
+<div class="audio-controls">
+<button class="audio-btn" id="playPauseBtn" onclick="toggleAudio()">▶</button>
+<div class="volume-container">
+<span style="font-size: 9px; color: var(--arch-blue);">♪</span>
+<input class="volume-slider" id="volumeSlider" max="100" min="0" oninput="setVolume(this.value)" type="range" value="50"/>
+<span class="volume-text" id="volumeText">50%</span>
+</div>
+</div>
+<div class="top-right">
+<span id="load-avg">Load: 1.1.0 0.01 1.1</span>
+<span id="clock">00:00:00</span>
+</div>
+</div>
+<div class="terminal-windows">
+<div class="terminal" onclick="openProfile('vini')">
+<div class="terminal-header">
+<div class="terminal-title">[vini@217.48.31.185 ~]</div>
+</div>
+<div class="terminal-body">
+<div class="screenfetch-container">
+<div class="arch-logo">
+<div class="ascii-art">
+       \`*-.                    
+         )  _`-.                 
+       .  : `. .                
+       : _   '  \               
+       ; *` _.   `*-._          
+       `-.-'          `-.       
+         ;       `       `.     
+         :.       .        \    
+         . \  .   :   .-'   .   
+         '  `+.;  ;  '      :   
+         :  '  |    ;       ;-. 
+         ; '   : :`-:     _.`* ;
+[vini] .*' /  .*' ; .*`- +'  `*' 
+      `*-*   `*-*  `*-*'
+                            </div>
+</div>
+<div class="system-info">
+<pre class="info-block">
+╭─────────────────── root@vini──────────────────────╮
+│ 👤 User        : vini                             │
+│ 📝 Description: just a person that can            │
+│               make things happen                  │
+├────────────────────── LANGUAGES ─────────────────────────┤
+│ Python, Lua,                                  │
+│                                                      │
+│ HTML / CSS                                               │
+├─────────────────────── SKILLS ───────────────────────────┤
+│  System Administration                                  │
+│  Network Security                                       │
+│  Scripting &amp; Automation                                 │
+│  Web Development                                        │
+├──────────────────────────────────────────────────────────┤
+│ ● ● ● ● ● ● ● ●                                          │
+╰──────────────────────────────────────────────────────────╯
+                            </pre>
+</div>
+</div>
+<div class="command-prompt">
+<span class="user-prompt">[vini@217.48.31.185 ~]$</span>
+<span class="command"> cat about_me.txt</span>
+</div>
+</div>
+</div>
+</div>
+<div class="bottom-bar">
+<span>uptime: <span id="uptime">0:00</span></span>
+</div>
+</div>
+<div aria-hidden="true" class="modal" id="modal-vini">
+<div aria-labelledby="modal-title-vini" aria-modal="true" class="modal-terminal" id="modal-terminal-vini" role="dialog">
+<div class="modal-header">
+<div class="modal-title" id="modal-title-vini">[vini@217.48.31.185 ~]$ nano ~/.profile</div>
+<div aria-label="window controls" class="mac-buttons" role="toolbar">
+<span aria-label="Close" class="mac-btn red" onclick="closeModal('vini')" role="button" title="Close"></span>
+<span aria-label="Minimize" class="mac-btn yellow" onclick="toggleMinimize('vini')" role="button" title="Minimize"></span>
+<span aria-label="Maximize" class="mac-btn green" onclick="toggleMaximize('vini')" role="button" title="Maximize"></span>
+</div>
+</div>
+<div class="modal-body">
+<div class="user-info">
+<div class="modal-avatar">
+                        VN
+                    </div>
+<div class="user-details">
+<h2>vini</h2>
+<p>Developer &amp; Security Enthusiast</p>
+<div class="user-status">● Online - Working on interesting projects</div>
+</div>
+</div>
+<div class="package-details">
+<strong>Package Information:</strong><br/>
+                    Name: vini<br/>
+                    Version: 1.1.0<br/>
+                    Description: Developer with passion for security and automation<br/>
+                    Dependencies: Python, Lua, JavaScript, C++, SQL
+                </div>
+<div class="extended-info">
+<div class="group-info">
+<h3>About Me</h3>
+<p>I'm a passionate developer and security enthusiast with experience across multiple platforms and technologies. My journey started with simple scripting and has evolved into complex system administration and security research.</p>
+<p><strong>Current Focus:</strong></p>
+<p>- System administration and automation</p>
+<p>- Network security and penetration testing</p>
+<p>- Web development with modern frameworks</p>
+<p>- Game development and reverse engineering</p>
+<p>- Open source contributions</p>
+</div>
+<div class="group-info">
+<h3>Technical Skills</h3>
+<p><strong>Programming Languages:</strong></p>
+<p>• Python - Advanced (Automation, Web scraping, Security tools)</p>
+<p>• Lua - Expert (Scripting, Game modding, Roblox exploitation)</p>
+<p>• JavaScript/Node.js - Advanced (Web development, APIs, Automation)</p>
+<p>• C++ - Intermediate (Game development, System programming)</p>
+<p>• C# - Intermediate (Unity development, Desktop applications)</p>
+<p>• SQL - Advanced (Database management, Query optimization)</p>
+<p>• Bash/PowerShell - Expert (System administration, Automation)</p>
+<p><strong>Technologies &amp; Platforms:</strong></p>
+<p>• Windows/Linux/Unix system administration</p>
+<p>• Network security and penetration testing</p>
+<p>• Web development (React, Node.js, Express)</p>
+<p>• Database management (MySQL, PostgreSQL, MongoDB)</p>
+<p>• Virtualization (Docker, VMware, VirtualBox)</p>
+<p>• Game development (Unity, Roblox Studio)</p>
+</div>
+<div class="group-info">
+<h3>Projects &amp; Experience</h3>
+<p><strong>Current Projects:</strong></p>
+<p>- Developing security tools and automation scripts</p>
+<p>- Contributing to open source security projects</p>
+<p>- Building web applications with modern frameworks</p>
+<p>- Researching network security and penetration testing</p>
+<p><strong>Areas of Interest:</strong></p>
+<p>- Reverse engineering and malware analysis</p>
+<p>- Network protocol analysis and exploitation</p>
+<p>- Automation of security testing processes</p>
+<p>- Development of educational security content</p>
+<p>- Community building and knowledge sharing</p>
+</div>
+<div class="group-info">
+<h3>Philosophy</h3>
+<p>I believe in the power of knowledge sharing and community collaboration. The security community thrives when we work together to understand systems, identify vulnerabilities, and develop solutions.</p>
+<p><strong>Goals:</strong> Continue learning and growing in the security field, contribute meaningfully to open source projects, and help others on their security journey through education and collaboration.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<script src="js/main.js"></script>
+<script src="js/intro.js"></script>
+<script src="js/audio.js"></script>
+<script src="js/time.js"></script>
+</body>
+</html>
