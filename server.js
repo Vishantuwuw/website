@@ -1,28 +1,44 @@
 const express = require('express');
 const { createClient } = require('@supabase/supabase-js');
+const path = require('path');
 const app = express();
 
 // Initialize Supabase
 const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_KEY);
 
-app.use(express.static('public')); // Ensure your HTML is in a 'public' folder
+// 1. Serve static files (CSS, JS, etc.)
+app.use(express.static('.'));
 
-// Endpoint 1: This is what your frontend calls
+// 2. Explicit route to load your index.html
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'index.html'));
+});
+
+// 3. Endpoint to log visitors
 app.get('/log-ip', async (req, res) => {
     const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
+    
     const { data, error } = await supabase
         .from('visitor_logs')
         .insert([{ data: { ip: ip, timestamp: new Date() } }]);
     
-    if (error) return res.status(500).send(error.message);
+    if (error) {
+        console.error('Supabase Error:', error);
+        return res.status(500).send(error.message);
+    }
     res.send('Logged!');
 });
 
-// Endpoint 2: This is what you check to see the data
+// 4. Endpoint to view logs
 app.get('/get-logs', async (req, res) => {
     const { data, error } = await supabase.from('visitor_logs').select('*');
-    if (error) return res.status(500).send(error.message);
+    
+    if (error) {
+        console.error('Supabase Error:', error);
+        return res.status(500).send(error.message);
+    }
     res.json(data);
 });
 
-app.listen(10000, () => console.log('Server running on port 10000'));
+const PORT = process.env.PORT || 10000;
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
