@@ -1,41 +1,28 @@
 const express = require('express');
-const path = require('path');
-const { createClient } = require('@supabase/supabase-js'); // Added Supabase
-
+const { createClient } = require('@supabase/supabase-js');
 const app = express();
-app.use(express.json());
 
-// Initialize Supabase using your Environment Variables
+// Initialize Supabase
 const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_KEY);
 
-app.use(express.static(path.join(__dirname))); 
+app.use(express.static('public')); // Ensure your HTML is in a 'public' folder
 
-app.post('/log-ip', async (req, res) => {
-    // Save directly to Supabase instead of a local file
+// Endpoint 1: This is what your frontend calls
+app.get('/log-ip', async (req, res) => {
+    const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
     const { data, error } = await supabase
         .from('visitor_logs')
-        .insert([{ data: req.body }]);
-
-    if (error) {
-        console.error('Supabase Error:', error);
-        return res.status(500).send('Database error');
-    }
-    res.sendStatus(200);
+        .insert([{ data: { ip: ip, timestamp: new Date() } }]);
+    
+    if (error) return res.status(500).send(error.message);
+    res.send('Logged!');
 });
 
+// Endpoint 2: This is what you check to see the data
 app.get('/get-logs', async (req, res) => {
-    // Fetch logs from Supabase instead of reading a local file
-    const { data, error } = await supabase
-        .from('visitor_logs')
-        .select('*')
-        .order('created_at', { ascending: false });
-
-    if (error) {
-        console.error('Supabase Fetch Error:', error);
-        return res.status(500).send('Database error');
-    }
+    const { data, error } = await supabase.from('visitor_logs').select('*');
+    if (error) return res.status(500).send(error.message);
     res.json(data);
 });
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+app.listen(10000, () => console.log('Server running on port 10000'));
