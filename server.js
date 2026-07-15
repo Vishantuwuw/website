@@ -1,27 +1,40 @@
 const express = require('express');
-const fs = require('fs');
 const path = require('path');
-const app = express();
+const { createClient } = require('@supabase/supabase-js'); // Added Supabase
 
+const app = express();
 app.use(express.json());
-// This forces the server to look in the same folder as server.js for your assets
+
+// Initialize Supabase using your Environment Variables
+const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_KEY);
+
 app.use(express.static(path.join(__dirname))); 
 
-app.post('/log-ip', (req, res) => {
-    const data = JSON.stringify(req.body);
-    // Saves to a file named visitor_logs.json in your root folder
-    fs.appendFileSync('visitor_logs.json', data + '\n');
+app.post('/log-ip', async (req, res) => {
+    // Save directly to Supabase instead of a local file
+    const { data, error } = await supabase
+        .from('visitor_logs')
+        .insert([{ data: req.body }]);
+
+    if (error) {
+        console.error('Supabase Error:', error);
+        return res.status(500).send('Database error');
+    }
     res.sendStatus(200);
 });
 
-// Admin route to see logs
-app.get('/get-logs', (req, res) => {
-    if (fs.existsSync('visitor_logs.json')) {
-        const logs = fs.readFileSync('visitor_logs.json', 'utf8');
-        res.send(logs);
-    } else {
-        res.send('No logs found yet.');
+app.get('/get-logs', async (req, res) => {
+    // Fetch logs from Supabase instead of reading a local file
+    const { data, error } = await supabase
+        .from('visitor_logs')
+        .select('*')
+        .order('created_at', { ascending: false });
+
+    if (error) {
+        console.error('Supabase Fetch Error:', error);
+        return res.status(500).send('Database error');
     }
+    res.json(data);
 });
 
 const PORT = process.env.PORT || 3000;
