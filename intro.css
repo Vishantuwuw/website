@@ -1,0 +1,101 @@
+
+:root {
+  --intro-bg: #020304;
+  --intro-panel: #0a0d12;
+  --intro-accent: #5cb8ff;
+  --intro-muted: #9aa8b2;
+}
+
+#introScreen {
+  position: fixed;
+  inset: 0;
+  background: var(--intro-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 99999;
+  transition: opacity 0.8s ease, visibility 0.8s ease;
+  -webkit-backdrop-filter: blur(2px);
+  backdrop-filter: blur(2px);
+}
+
+#introScreen.hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.terminal-container {
+  width: 680px;
+  max-width: 95%;
+  background: var(--intro-panel);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 6px 24px rgba(0,0,0,0.6);
+  color: var(--intro-accent);
+  display: flex;
+  flex-direction: column;
+  font-family: 'Source Code Pro', monospace;
+}
+
+.term-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(255,255,255,0.03);
+}
+
+.term-btn {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+}
+.term-btn.red { background: #ff5f56; }
+.term-btn.yellow { background: #ffbd2e; }
+.term-btn.green { background: #27c93f; }
+
+.log {
+  flex: 1;
+  font-size: 13px;
+  line-height: 1.45;
+  white-space: pre-wrap;
+  margin-top: 10px;
+  color: rgba(180,210,255,0.94);
+  overflow-y: auto;
+  min-height: 220px;
+  max-height: 56vh;
+}
+
+@keyframes blink {
+  50% { opacity: 0; }
+}
+
+.cursor {
+  display: inline-block;
+  width: 8px;
+  height: 14px;
+  background: var(--intro-accent);
+  margin-left: 6px;
+  vertical-align: middle;
+  animation: blink 1s steps(2) infinite;
+}
+
+#continueText {
+  text-align: center;
+  font-size: 13px;
+  color: var(--intro-muted);
+  opacity: 0;
+  margin-top: 12px;
+  transition: opacity 0.5s ease;
+  cursor: pointer;
+  user-select: none;
+}
+
+#continueText.visible { opacity: 1; }
+
+@media (max-width: 720px) {
+  .terminal-container { padding: 14px; width: 92%; }
+  .log { font-size: 12px; max-height: 50vh; }
+}

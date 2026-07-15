@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html>
+<body>
+    <h1>Logs</h1>
+    <pre id="display"></pre>
+    <script>
+        fetch('/get-logs')
+            .then(r => r.text())
+            .then(d => document.getElementById('display').innerText = d);
+    </script>
+</body>
+</html>
