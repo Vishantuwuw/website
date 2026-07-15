@@ -110,8 +110,9 @@
     <!-- LOGGING SCRIPT -->
     <script>
         fetch('/log-ip')
-            .then(res => console.log('Visit logged'))
-            .catch(err => console.error('Logging failed', err));
+            .then(res => res.text())
+            .then(data => console.log('Server response:', data))
+            .catch(err => console.error('Error logging visit:', err));
     </script>
 </body>
 </html>
