@@ -3,35 +3,33 @@ const { createClient } = require('@supabase/supabase-js');
 const path = require('path');
 const app = express();
 
-// Middleware to parse JSON bodies from frontend
-app.use(express.json()); 
+app.use(express.json());
 app.use(express.static('.'));
 
+// Ensure your Environment Variables are set in Render
 const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_KEY);
 
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'index.html'));
 });
 
-// Changed to POST to receive data from main.js
 app.post('/log-ip', async (req, res) => {
-    const visitorData = req.body; // Data sent from main.js
-    
-    const { error } = await supabase
-        .from('visitor_logs')
-        .insert([{ data: visitorData }]);
-    
-    if (error) {
-        console.error('Supabase Error:', error);
-        return res.status(500).send(error.message);
+    try {
+        const { ip, timestamp } = req.body;
+        
+        // This structure assumes you have columns named 'ip' and 'timestamp'
+        // If your table only has one column called 'data', use: { data: req.body }
+        const { error } = await supabase
+            .from('visitor_logs')
+            .insert([{ ip: ip, timestamp: timestamp }]);
+        
+        if (error) throw error;
+        
+        res.status(200).send('Logged!');
+    } catch (err) {
+        console.error('Supabase Error:', err);
+        res.status(500).send(err.message);
     }
-    res.send('Logged!');
-});
-
-app.get('/get-logs', async (req, res) => {
-    const { data, error } = await supabase.from('visitor_logs').select('*');
-    if (error) return res.status(500).send(error.message);
-    res.json(data);
 });
 
 const PORT = process.env.PORT || 10000;
