@@ -4,13 +4,17 @@
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
     <title>vini</title>
+    <!-- Fonts -->
     <link href="https://fonts.googleapis.com" rel="preconnect"/>
     <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+    <!-- Stylesheets -->
     <link href="css2.css" rel="stylesheet"/>
     <link href="intro.css" rel="stylesheet"/>
     <link href="styles.css" rel="stylesheet"/>
 </head>
 <body>
+
+    <!-- Intro Screen -->
     <div aria-hidden="false" id="introScreen">
         <div aria-label="Intro terminal" class="terminal-container" role="dialog">
             <div aria-hidden="true" class="term-header">
@@ -22,6 +26,8 @@
             <div aria-hidden="true" id="continueText">Access granted. Click to continue...</div>
         </div>
     </div>
+
+    <!-- Main Desktop -->
     <div class="desktop">
         <div class="top-bar">
             <div class="arch-logo-top">vini@217.48.31.185</div>
@@ -42,6 +48,7 @@
                 <span id="clock">00:00:00</span>
             </div>
         </div>
+
         <div class="terminal-windows">
             <div class="terminal" onclick="openProfile('vini')">
                 <div class="terminal-header">
@@ -53,14 +60,14 @@
                             <div class="ascii-art">
                                 `*-.                
                                   )  _`-.            
-                                . : `. .           
-                                : _   '  \          
+                                . : `. .            
+                                : _   '  \           
                                 ; *` _.    `*-._      
                                 `-.-'         `-.    
                                   ;       `        `.  
                                   :.       .        \ 
-                                  . \  .    :    .-'  . 
-                                  '  `+.;  ;  '       : 
+                                  . \  .   :    .-'  . 
+                                  '  `+.;  ;  '        : 
                                   :  '  |    ;        ;-. 
                                   ; '    : :`-:     _.`* ;
                                 [vini] .*' /  .*' ; .*`- +'  `*' 
@@ -70,20 +77,20 @@
                         <div class="system-info">
                             <pre class="info-block">
 ╭─────────────────── root@vini──────────────────────╮
-│ 👤 User         : vini                          │
-│ 📝 Description: just a person that can           │
-│               make things happen                 │
+│ 👤 User       : vini                          │
+│ 📝 Description: just a person that can        │
+│               make things happen              │
 ├────────────────────── LANGUAGES ─────────────────────────┤
-│ Python, Lua,                                     │
-│                                                  │
-│ HTML / CSS                                       │
+│ Python, Lua,                                 │
+│                                              │
+│ HTML / CSS                                   │
 ├─────────────────────── SKILLS ───────────────────────────┤
-│  System Administration                          │
-│  Network Security                               │
-│  Scripting & Automation                         │
-│  Web Development                                │
+│  System Administration                      │
+│  Network Security                           │
+│  Scripting & Automation                     │
+│  Web Development                            │
 ├──────────────────────────────────────────────────────────┤
-│ ● ● ● ● ● ● ● ●                                  │
+│ ● ● ● ● ● ● ● ●                              │
 ╰──────────────────────────────────────────────────────────╯
                             </pre>
                         </div>
@@ -95,24 +102,17 @@
                 </div>
             </div>
         </div>
+
         <div class="bottom-bar">
             <span>uptime: <span id="uptime">0:00</span></span>
         </div>
     </div>
 
-    <!-- Modals and other sections remain here... -->
-
+    <!-- Scripts -->
     <script src="main.js"></script>
     <script src="intro.js"></script>
     <script src="audio.js"></script>
     <script src="time.js"></script>
 
-    <!-- LOGGING SCRIPT -->
-    <script>
-        fetch('/log-ip')
-            .then(res => res.text())
-            .then(data => console.log('Server response:', data))
-            .catch(err => console.error('Error logging visit:', err));
-    </script>
 </body>
 </html>
