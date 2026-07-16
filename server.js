@@ -3,21 +3,23 @@ const { createClient } = require('@supabase/supabase-js');
 const path = require('path');
 const app = express();
 
-const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_KEY);
-
+// Middleware to parse JSON bodies from frontend
+app.use(express.json()); 
 app.use(express.static('.'));
+
+const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_KEY);
 
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'index.html'));
 });
 
-app.get('/log-ip', async (req, res) => {
-    const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
+// Changed to POST to receive data from main.js
+app.post('/log-ip', async (req, res) => {
+    const visitorData = req.body; // Data sent from main.js
     
-    // This will now work because you added the 'data' column
     const { error } = await supabase
         .from('visitor_logs')
-        .insert([{ data: { ip: ip, timestamp: new Date().toISOString() } }]);
+        .insert([{ data: visitorData }]);
     
     if (error) {
         console.error('Supabase Error:', error);
