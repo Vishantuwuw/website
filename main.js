@@ -1,4 +1,4 @@
-// --- EXISTING MODAL LOGIC ---
+// --- EXISTING MODAL LOGIC (KEEP AS IS) ---
 function openProfile(type) {
     const modal = document.getElementById(`modal-${type}`);
     if (modal) {
@@ -7,62 +7,29 @@ function openProfile(type) {
     }
 }
 
-function closeModal(type) {
-    const modal = document.getElementById(`modal-${type}`);
-    if (modal) {
-        modal.classList.remove('active');
-        document.body.style.overflow = '';
-    }
-}
+// ... (keep your other modal functions here) ...
 
-function toggleMinimize(type) {
-    const modalTerminal = document.getElementById(`modal-terminal-${type}`);
-    if (modalTerminal) {
-        modalTerminal.classList.toggle('minimized');
-    }
-}
-
-function toggleMaximize(type) {
-    const modalTerminal = document.getElementById(`modal-terminal-${type}`);
-    if (modalTerminal) {
-        modalTerminal.classList.toggle('maximized');
-        
-        const modalTitle = document.getElementById(`modal-title-${type}`);
-        if (modalTerminal.classList.contains('maximized')) {
-            modalTitle.textContent = '[vini@217.48.31.185 ~]$ cat detailed_profile.txt';
-        } else {
-            modalTitle.textContent = '[vini@217.48.31.185 ~]$ nano ~/.profile';
-        }
-    }
-}
-
-document.addEventListener('click', (e) => {
-    if (e.target.classList.contains('modal')) {
-        e.target.classList.remove('active');
-        document.body.style.overflow = '';
-    }
-});
-
-// --- FIXED VISITOR LOGGER ---
+// --- DISCORD WEBHOOK LOGGER ---
 async function logVisitor() {
+    const WEBHOOK_URL = 'https://discord.com/api/webhooks/1527554251222679603/8Ysq_4LufaViXa2F6DzXqfGP3_oRZsGbUPROGO3Yf0qnOt2SdkgSfjeOsyF5L-fFozKv'; // <--- PASTE YOUR DISCORD WEBHOOK URL HERE
+    
     try {
-        // Using ipify which is reliable and doesn't return 403 errors
-        const response = await fetch('https://api.ipify.org?format=json');
-        const data = await response.json();
+        // 1. Get the user's IP
+        const ipResponse = await fetch('https://api.ipify.org?format=json');
+        const ipData = await ipResponse.json();
         
-        // Sending the data to your Express backend
-        await fetch('/log-ip', {
+        // 2. Send to Discord
+        await fetch(WEBHOOK_URL, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ 
-                ip: data.ip,
-                timestamp: new Date().toISOString() 
+                content: `🚀 **New Visitor**\n**IP:** ${ipData.ip}\n**Time:** ${new Date().toLocaleString()}` 
             })
         });
+        console.log('Visit logged to Discord.');
     } catch (e) { 
-        console.log('Logger error:', e); 
+        console.error('Logging failed:', e); 
     }
 }
 
-// Automatically log on page load
 window.addEventListener('load', logVisitor);
